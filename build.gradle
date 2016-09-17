@@ -1,0 +1,32 @@
+apply plugin: "java"
+apply plugin: "eclipse"
+
+sourceCompatibility = 1.8
+version = '0.0.1'
+
+repositories {
+	mavenCentral()
+}
+
+task fatJar(type: Jar, dependsOn: classes) {
+	manifest {
+		attributes 'Main-Class': 'org.kneelawk.hellolwjgl.HelloLWJGLLaunch'
+	}
+	baseName "${project.name}-all"
+	from { configurations.compile }
+	with jar
+	
+	group 'Build'
+	description 'Creates a jar with all dependencies included.'
+}
+
+assemble.dependsOn fatJar
+
+dependencies {
+	compile 'org.lwjgl:lwjgl:3.0.0b'
+	compile 'org.lwjgl:lwjgl-platform:3.0.0b:natives-windows'
+	compile 'org.lwjgl:lwjgl-platform:3.0.0b:natives-linux'
+	compile 'org.lwjgl:lwjgl-platform:3.0.0b:natives-osx'
+	compile 'com.google.guava:guava:19.0'
+	compile 'org.joml:joml:1.7.0'
+}
